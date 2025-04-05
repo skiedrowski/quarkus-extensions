@@ -7,22 +7,19 @@ import io.quarkus.panache.common.Sort
 import io.quarkus.rest.data.panache.kotlin.MethodProperties
 import io.quarkus.rest.data.panache.kotlin.ResourceProperties
 import io.quarkus.test.QuarkusUnitTest
-import org.jboss.shrinkwrap.api.spec.JavaArchive
 import org.junit.jupiter.api.extension.RegisterExtension
-import java.util.function.Consumer
 
 internal object PanacheRepositoryResourcePathCustomisationTest : AbstractPathCustomisationTest() {
     @RegisterExtension
-    val TEST: QuarkusUnitTest? = QuarkusUnitTest()
-        .withApplicationRoot(Consumer { jar: JavaArchive? ->
-            jar!!
-                .addClasses(
-                    Collection::class.java, CollectionsResource::class.java, CollectionsRepository::class.java,
-                    AbstractEntity::class.java, AbstractItem::class.java, Item::class.java, CustomPathCollectionsResource::class.java
-                )
+    val TEST: QuarkusUnitTest = QuarkusUnitTest()
+        .withApplicationRoot { jar ->
+            jar.addClasses(
+                Collection::class.java, CollectionsResource::class.java, CollectionsRepository::class.java,
+                AbstractEntity::class.java, AbstractItem::class.java, Item::class.java, CustomPathCollectionsResource::class.java
+            )
                 .addAsResource("application.properties")
                 .addAsResource("import.sql")
-        })
+        }
 
     @ResourceProperties(path = "custom-collections", hal = true)
     interface CustomPathCollectionsResource
