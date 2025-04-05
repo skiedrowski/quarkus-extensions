@@ -30,7 +30,7 @@ jobs:
       - name: Build rest-data-panache-kotlin
         run: cd rest-data-panache-kotlin && mvn -B install --file pom.xml
       - name: Build hibernate-orm-rest-data-panache-kotlin
-        run: cd hibernate-orm-rest-data-panache-kotlin && mvn -B package -Dmaven.test.skip=false --file pom.xml
+        run: cd hibernate-orm-rest-data-panache-kotlin && mvn -B package --file pom.xml
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     #- name: Update dependency graph
