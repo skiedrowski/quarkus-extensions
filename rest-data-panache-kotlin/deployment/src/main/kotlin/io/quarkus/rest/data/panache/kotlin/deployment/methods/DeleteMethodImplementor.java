@@ -1,6 +1,8 @@
 package io.quarkus.rest.data.panache.kotlin.deployment.methods;
 
 import static io.quarkus.gizmo.MethodDescriptor.ofMethod;
+import static io.quarkus.rest.data.panache.kotlin.deployment.methods.KotlinTypeProvider.ktAny;
+import static io.quarkus.rest.data.panache.kotlin.deployment.methods.KotlinTypeProvider.ktBoolean;
 import static io.quarkus.rest.data.panache.kotlin.deployment.utils.SignatureMethodCreator.param;
 import static io.quarkus.rest.data.panache.kotlin.deployment.utils.SignatureMethodCreator.responseType;
 import static io.quarkus.rest.data.panache.kotlin.deployment.utils.SignatureMethodCreator.uniType;
@@ -103,7 +105,7 @@ public final class DeleteMethodImplementor extends StandardMethodImplementor {
         if (isNotReactivePanache()) {
             TryBlock tryBlock = implementTryBlock(methodCreator, EXCEPTION_MESSAGE);
             ResultHandle deleted = tryBlock.invokeVirtualMethod(
-                    ofMethod(resourceMetadata.getResourceClass(), RESOURCE_METHOD_NAME, boolean.class, Object.class),
+                    ofMethod(resourceMetadata.getResourceClass(), RESOURCE_METHOD_NAME, ktBoolean, ktAny),
                     resource, id);
 
             // Return response
@@ -114,7 +116,7 @@ public final class DeleteMethodImplementor extends StandardMethodImplementor {
             tryBlock.close();
         } else {
             ResultHandle uniDeleted = methodCreator.invokeVirtualMethod(
-                    ofMethod(resourceMetadata.getResourceClass(), RESOURCE_METHOD_NAME, Uni.class, Object.class),
+                    ofMethod(resourceMetadata.getResourceClass(), RESOURCE_METHOD_NAME, Uni.class, ktAny),
                     resource, id);
 
             methodCreator.returnValue(UniImplementor.map(methodCreator, uniDeleted, EXCEPTION_MESSAGE,

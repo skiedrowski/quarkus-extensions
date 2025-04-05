@@ -1,6 +1,7 @@
 package io.quarkus.rest.data.panache.kotlin.deployment.methods;
 
 import static io.quarkus.gizmo.MethodDescriptor.ofMethod;
+import static io.quarkus.rest.data.panache.kotlin.deployment.methods.KotlinTypeProvider.ktAny;
 import static io.quarkus.rest.data.panache.kotlin.deployment.utils.SignatureMethodCreator.param;
 import static io.quarkus.rest.data.panache.kotlin.deployment.utils.SignatureMethodCreator.responseType;
 import static io.quarkus.rest.data.panache.kotlin.deployment.utils.SignatureMethodCreator.uniType;
@@ -129,13 +130,13 @@ public final class AddMethodImplementor extends StandardMethodImplementor {
         if (isNotReactivePanache()) {
             TryBlock tryBlock = implementTryBlock(methodCreator, EXCEPTION_MESSAGE);
             ResultHandle entity = tryBlock.invokeVirtualMethod(
-                    ofMethod(resourceMetadata.getResourceClass(), RESOURCE_METHOD_NAME, Object.class, Object.class),
+                    ofMethod(resourceMetadata.getResourceClass(), RESOURCE_METHOD_NAME, ktAny, ktAny),
                     resource, entityToSave);
             tryBlock.returnValue(responseImplementor.created(tryBlock, entity, resourceProperties));
             tryBlock.close();
         } else {
             ResultHandle uniEntity = methodCreator.invokeVirtualMethod(
-                    ofMethod(resourceMetadata.getResourceClass(), RESOURCE_METHOD_NAME, Uni.class, Object.class),
+                    ofMethod(resourceMetadata.getResourceClass(), RESOURCE_METHOD_NAME, Uni.class, ktAny),
                     resource, entityToSave);
 
             methodCreator.returnValue(UniImplementor.map(methodCreator, uniEntity, EXCEPTION_MESSAGE,

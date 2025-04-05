@@ -1,6 +1,7 @@
 package io.quarkus.rest.data.panache.kotlin.deployment.methods;
 
 import static io.quarkus.gizmo.MethodDescriptor.ofMethod;
+import static io.quarkus.rest.data.panache.kotlin.deployment.methods.KotlinTypeProvider.ktLong;
 import static io.quarkus.rest.data.panache.kotlin.deployment.utils.SignatureMethodCreator.responseType;
 import static io.quarkus.rest.data.panache.kotlin.deployment.utils.SignatureMethodCreator.uniType;
 
@@ -91,7 +92,7 @@ public final class CountMethodImplementor extends StandardMethodImplementor {
         if (isNotReactivePanache()) {
             TryBlock tryBlock = implementTryBlock(methodCreator, EXCEPTION_MESSAGE);
             ResultHandle count = tryBlock.invokeVirtualMethod(
-                    ofMethod(resourceMetadata.getResourceClass(), METHOD_NAME, new KotlinTypeProvider().ktLong()), //TODO performance
+                    ofMethod(resourceMetadata.getResourceClass(), METHOD_NAME, ktLong),
                     resource);
 
             // Return response
